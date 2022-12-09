@@ -72,6 +72,7 @@ router.beforeEach((to, from, next) => {
         router.options.isAddDynamicMenuRoutes = true
         sessionStorage.setItem('menuList', JSON.stringify(data.menuList || '[]'))
         sessionStorage.setItem('permissions', JSON.stringify(data.permissions || '[]'))
+        console.log(data)
         next({ ...to, replace: true })
       } else {
         sessionStorage.setItem('menuList', '[]')
