@@ -54,42 +54,6 @@ export default {
                 key: ''
             },
             dataList: [
-                {
-                    "id": "1",
-                    "spuName": "伊利纯牛奶",
-                    "spuDescription": "高品质的奶源供应",
-                    "spuPrice": "500",
-                    "spuDiscount": "399",
-                    "catalogId": "9",
-                    "brandId": "1",
-                    "publishStatus": 1,
-                    "createTime": null,
-                    "updateTime": null
-                },
-                {
-                    "id": "3",
-                    "spuName": "伊利安慕希",
-                    "spuDescription": "安慕希牛奶超级好喝",
-                    "spuPrice": "600",
-                    "spuDiscount": "450",
-                    "catalogId": "9",
-                    "brandId": "1",
-                    "publishStatus": 1,
-                    "createTime": null,
-                    "updateTime": null
-                },
-                {
-                    "id": "1602276877978947586",
-                    "spuName": "乐事薯片",
-                    "spuDescription": "美国经典薯片",
-                    "spuPrice": "900",
-                    "spuDiscount": "799",
-                    "catalogId": "4",
-                    "brandId": "2",
-                    "publishStatus": 1,
-                    "createTime": "2022-12-12 20:19:11",
-                    "updateTime": "2022-12-12 20:19:11"
-                }
             ],
             pageIndex: 1,
             pageSize: 10,
@@ -110,7 +74,7 @@ export default {
         getDataList() {
             this.dataListLoading = true
             this.$http({
-                url: this.$http.adornUrl('/crud/listSpu'),
+                url: this.$http.adornUrl('/product/listSpu'),
                 method: 'get',
                 // params: this.$http.adornParams({
                 //     'page': this.pageIndex,
@@ -118,18 +82,18 @@ export default {
                 //     'key': this.dataForm.key
                 // })
             }).then(({ data }) => {
-                // if (data && data.code === 0) {
-                //     this.dataList = data.page.list
-                //     this.totalPage = data.page.totalCount
-                // } else {
-                //     this.dataList = []
-                //     this.totalPage = 0
-                // }
+                if (data && data.code === 200) {
+                    console.log(data)
+                    this.dataList = data.data
+                    this.totalPage = 0
+                } else {
+                    this.dataList = []
+                    this.totalPage = 0
+                }
                 this.dataListLoading = false
             })
             /*  测试用代码 */
             this.dataListLoading = false
-            console.log(this.dataList)
         },
         // 每页数
         sizeChangeHandle(val) {
