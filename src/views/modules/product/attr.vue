@@ -1,11 +1,11 @@
 <template>
     <div class="mod-config">
         <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
-            <el-form-item>
+            <!-- <el-form-item>
                 <el-input v-model="dataForm.key" placeholder="id" clearable></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
-                <el-button @click="inquireData()">查询</el-button>
+                <!-- <el-button @click="inquireData()">查询</el-button> -->
                 <el-button v-if="isAuth('product:spu:add')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
                 <el-button v-if="isAuth('product:attr:delete')" type="danger" @click="deleteHandle()"
                     :disabled="dataListSelections.length <= 0">批量删除</el-button>
@@ -15,23 +15,13 @@
             style="width: 100%;">
             <el-table-column type="selection" header-align="center" align="center" width="50">
             </el-table-column>
-            <el-table-column prop="id" header-align="center" align="center" label="id">
+            <el-table-column prop="attrGroupId" header-align="center" align="center" label="id">
             </el-table-column>
-            <el-table-column prop="spuName" header-align="center" align="center" label="商品名称">
-            </el-table-column>
-            <el-table-column prop="spuDescription" header-align="center" align="center" label="商品描述">
-            </el-table-column>
-            <el-table-column prop="spuPrice" header-align="center" align="center" label="原价">
-            </el-table-column>
-            <el-table-column prop="spuDiscount" header-align="center" align="center" label="折扣价">
-            </el-table-column>
-            <el-table-column prop="publishStatus" header-align="center" align="center" label="是否上架">
-            </el-table-column>
-            <el-table-column prop="createTime" header-align="center" align="center" label="创建时间">
+            <el-table-column prop="attrGroupName" header-align="center" align="center" label="规格名称">
             </el-table-column>
             <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
                 <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
+                    <!-- <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button> -->
                     <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
                 </template>
             </el-table-column>
@@ -45,7 +35,7 @@
     </div>
 </template>
 <script>
-import AddOrUpdate from './spu-add-or-update.vue'
+import AddOrUpdate from './attr-add-or-update'
 export default {
     data() {
         return {
@@ -71,12 +61,11 @@ export default {
         getDataList() {// 获取数据列表
             this.dataListLoading = true
             this.$http({
-                url: this.$http.adornUrl('product/listSpu?current=' + this.pageIndex + '&&pageSize=' + this.pageSize),
+                url: this.$http.adornUrl('product/listAttrGroup?current=' + this.pageIndex + '&&pageSize=' + this.pageSize),
                 method: 'get',
             }).then(({ data }) => {
                 if (data && data.code === 200) {
                     this.dataList = data.data.records
-                    this.calculatePrice(data.data.records)
                     this.totalPage = data.data.pages
                 } else {
                     this.dataList = []
@@ -84,20 +73,6 @@ export default {
                 }
                 this.dataListLoading = false
             })
-        },
-        calculatePrice(e) {//转换金额单位和上架信息
-            if (e.length > 0) {
-                for (var i = 0; i < e.length; i++) {
-                    this.dataList[i].spuPrice = this.dataList[i].spuPrice / 100
-                    this.dataList[i].spuDiscount = this.dataList[i].spuDiscount / 100
-                    /* 是否上架的状态修改 */
-                    if (this.dataList[i].publishStatus == 1) {
-                        this.dataList[i].publishStatus = '是'
-                    } else {
-                        this.dataList[i].publishStatus = '否'
-                    }
-                }
-            }
         },
         inquireData() {//根据id查询商品
             if (!this.dataForm.key) {
