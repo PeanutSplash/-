@@ -65,7 +65,7 @@ http.adornParams = (params = {}, openDefaultParams = true) => {
  *  json: 'application/json; charset=utf-8'
  *  form: 'application/x-www-form-urlencoded; charset=utf-8'
  */
-http.adornData = (data = {}, openDefaultData = true, contentType = 'json') => {
+http.adornData = (data = {}, openDefaultData = false, contentType = 'json') => {
   var defaults = {
     't': new Date().getTime()
   }
