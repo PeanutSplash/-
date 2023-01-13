@@ -77,9 +77,10 @@ export default {
                 method: 'get',
  
             }).then(({ data }) => {
-                if (data&&data.code==200) {
+                if (data && data.code === 200) {
+                    console.log(data)
                     this.dataList = data.data
-                    // this.totalPage = data.page.totalCount
+                    this.totalPage = 0
                 } else {
                     this.dataList = []
                     this.totalPage = 0
